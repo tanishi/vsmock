@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/tanishi/vsmock/constant"
 	"github.com/tanishi/vsmock/helper"
 	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/find"
@@ -11,21 +12,11 @@ import (
 	"github.com/vmware/govmomi/vim25/soap"
 )
 
-const (
-	GOVC_URL = "GOVC_URL"
-	VC_SIM   = "https://user:pass@127.0.0.1:8989/sdk"
-)
-
-const (
-	VIRTUAL_MACHINE = "VirtualMachine"
-	URL             = VC_SIM
-)
-
 func TestVMPowerOff(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	u, err := soap.ParseURL(URL)
+	u, err := soap.ParseURL(constant.URL)
 
 	helper.LogFatal(err)
 
@@ -39,7 +30,7 @@ func TestVMPowerOff(t *testing.T) {
 
 	m := view.NewManager(c.Client)
 
-	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{VIRTUAL_MACHINE}, true)
+	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{constant.VIRTUAL_MACHINE}, true)
 
 	helper.LogFatal(err)
 

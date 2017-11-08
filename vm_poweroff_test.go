@@ -49,4 +49,8 @@ func TestVMPowerOff(t *testing.T) {
 	helper.LogFatal(err)
 
 	vm.PowerOff(ctx)
+
+	if s, _ := vm.PowerState(ctx); s != "poweredOff" {
+		t.Errorf("%s\n", s)
+	}
 }

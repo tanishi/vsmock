@@ -15,8 +15,6 @@ Go
 
 vsmock -u user:pass@host
 
-vsmock -f /path/to/structure.json
-
 ## Installation
 
 `go get github.com/tanishi/vsmock`

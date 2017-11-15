@@ -22,9 +22,6 @@ func (c *CLI) Run(args []string) int {
 	var url string
 	flags.StringVar(&url, "u", "", "url")
 
-	var fpath string
-	flags.StringVar(&fpath, "f", "", "fpath")
-
 	if err := flags.Parse(args[1:]); err != nil {
 		return ExitCodeParseFlagError
 	}
@@ -33,7 +30,7 @@ func (c *CLI) Run(args []string) int {
 		url = os.Getenv("GOVC_URL")
 	}
 
-	if url == "" && fpath == "" {
+	if url == "" {
 		flags.Usage()
 		return ExitCodeParseFlagError
 	}

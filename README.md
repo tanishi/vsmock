@@ -6,7 +6,6 @@ Wrapper of vcsim
 
 vsmock is a CLI tool that reads configuration information from JSON or vCenter or ESXi and invokes vcsim.
 
-<!--
 ## Requirement
 
 Go
@@ -15,13 +14,10 @@ Go
 
 vsmock -u user:pass@host
 
-vsmock -f /path/to/structure.json
-
 ## Installation
 
 `go get github.com/tanishi/vsmock`
 `go install github.com/tanishi/vsmock`
--->
 
 ## Author
 

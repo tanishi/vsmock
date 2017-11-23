@@ -2,11 +2,16 @@ package main
 
 import (
 	"os"
+
+	"github.com/tanishi/vsmock/cli"
 )
 
 const Version string = "v0.1.0"
 
 func main() {
-	cli := &CLI{outStream: os.Stdout, errStream: os.Stderr}
-	os.Exit(cli.Run(os.Args))
+	c := &cli.CLI{
+		OutStream: os.Stdout,
+		ErrStream: os.Stderr,
+	}
+	os.Exit(c.Run(os.Args))
 }

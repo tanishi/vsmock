@@ -1,6 +1,7 @@
-package main
+package cli
 
 import (
+	"context"
 	"flag"
 	"io"
 	"os"
@@ -11,19 +12,27 @@ const (
 	ExitCodeParseFlagError
 )
 
+type HasFlags interface {
+	Register(ctx context.Context, f *flag.FlagSet)
+	Process(ctx context.Context) error
+}
+
+type Command interface {
+	HasFlags
+
+	Run(ctx context.Context, f *flag.FlagSet) error
+}
+
 type CLI struct {
-	outStream, errStream io.Writer
+	OutStream, ErrStream io.Writer
 }
 
 func (c *CLI) Run(args []string) int {
 	flags := flag.NewFlagSet("vsmock", flag.ContinueOnError)
-	flags.SetOutput(c.errStream)
+	flags.SetOutput(c.ErrStream)
 
 	var url string
 	flags.StringVar(&url, "u", "", "url")
-
-	var fpath string
-	flags.StringVar(&fpath, "f", "", "fpath")
 
 	if err := flags.Parse(args[1:]); err != nil {
 		return ExitCodeParseFlagError
@@ -33,7 +42,7 @@ func (c *CLI) Run(args []string) int {
 		url = os.Getenv("GOVC_URL")
 	}
 
-	if url == "" && fpath == "" {
+	if url == "" {
 		flags.Usage()
 		return ExitCodeParseFlagError
 	}

@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"net/url"
 	"testing"
 )
 
@@ -17,21 +16,13 @@ func TestClient(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	u, err := url.Parse(URL)
+	c, err := NewClient(ctx, URL, USER, PASS)
 
 	if err != nil {
 		t.Errorf("%v\n", err)
 	}
 
-	u.User = url.UserPassword(USER, PASS)
-
-	c, err := NewClient(ctx, u)
-
-	if err != nil {
-		t.Errorf("%v\n", err)
-	}
-
-	if v := c.Client.Client.Version; v != VERSION {
+	if v := c.Version; v != VERSION {
 		t.Errorf("expected: %v, but: %v\n", VERSION, v)
 	}
 }

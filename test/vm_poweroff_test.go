@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
+	"log"
 	"testing"
 
 	"github.com/tanishi/vsmock/constant"
-	"github.com/tanishi/vsmock/helper"
 	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/view"
@@ -18,13 +18,17 @@ func TestVMPowerOff(t *testing.T) {
 
 	u, err := soap.ParseURL(constant.URL)
 
-	helper.LogFatal(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	insecure := true
 
 	c, err := govmomi.NewClient(ctx, u, insecure)
 
-	helper.LogFatal(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	defer c.Logout(ctx)
 
@@ -32,7 +36,9 @@ func TestVMPowerOff(t *testing.T) {
 
 	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{constant.VIRTUAL_MACHINE}, true)
 
-	helper.LogFatal(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	defer v.Destroy(ctx)
 
@@ -40,13 +46,17 @@ func TestVMPowerOff(t *testing.T) {
 
 	dc, err := f.DefaultDatacenter(ctx)
 
-	helper.LogFatal(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	f.SetDatacenter(dc)
 
 	vm, err := f.VirtualMachine(ctx, "/DC0/vm/DC0_H0_VM0")
 
-	helper.LogFatal(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	vm.PowerOff(ctx)
 

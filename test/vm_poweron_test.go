@@ -1,30 +1,21 @@
-package main
+package test
 
 import (
 	"context"
 	"log"
 	"testing"
 
+	"github.com/tanishi/vsmock/client"
 	"github.com/tanishi/vsmock/constant"
-	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/view"
-	"github.com/vmware/govmomi/vim25/soap"
 )
 
 func TestVMPowerOn(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	u, err := soap.ParseURL(constant.URL)
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	insecure := true
-
-	c, err := govmomi.NewClient(ctx, u, insecure)
+	c, err := client.NewClient(ctx, URL, USER, PASS)
 
 	if err != nil {
 		log.Println(err)

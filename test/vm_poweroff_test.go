@@ -1,30 +1,20 @@
-package main
+package test
 
 import (
 	"context"
 	"log"
 	"testing"
 
-	"github.com/tanishi/vsmock/constant"
-	"github.com/vmware/govmomi"
+	"github.com/tanishi/vsmock/client"
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/view"
-	"github.com/vmware/govmomi/vim25/soap"
 )
 
 func TestVMPowerOff(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	u, err := soap.ParseURL(constant.URL)
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	insecure := true
-
-	c, err := govmomi.NewClient(ctx, u, insecure)
+	c, err := client.NewClient(ctx, URL, USER, PASS)
 
 	if err != nil {
 		log.Println(err)
@@ -34,7 +24,7 @@ func TestVMPowerOff(t *testing.T) {
 
 	m := view.NewManager(c.Client)
 
-	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{constant.VIRTUAL_MACHINE}, true)
+	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{"VirtualMachine"}, true)
 
 	if err != nil {
 		log.Println(err)

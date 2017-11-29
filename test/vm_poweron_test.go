@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/tanishi/vsmock/client"
-	"github.com/tanishi/vsmock/constant"
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/view"
 )
@@ -25,7 +24,7 @@ func TestVMPowerOn(t *testing.T) {
 
 	m := view.NewManager(c.Client)
 
-	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{constant.VIRTUAL_MACHINE}, true)
+	v, err := m.CreateContainerView(ctx, c.ServiceContent.RootFolder, []string{"VirtualMachine"}, true)
 
 	if err != nil {
 		log.Println(err)

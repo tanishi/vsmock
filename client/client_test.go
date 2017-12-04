@@ -22,7 +22,7 @@ func TestClient(t *testing.T) {
 		t.Errorf("%v\n", err)
 	}
 
-	if v := c.Version; v != VERSION {
+	if v := c.GovmomiClient.Version; v != VERSION {
 		t.Errorf("expected: %v, but: %v\n", VERSION, v)
 	}
 }

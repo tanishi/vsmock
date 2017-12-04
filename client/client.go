@@ -8,7 +8,14 @@ import (
 	"github.com/vmware/govmomi/vim25/soap"
 )
 
-func NewClient(ctx context.Context, u, user, pass string) (*govmomi.Client, error) {
+type Client struct {
+	URL           *url.URL
+	GovmomiClient *govmomi.Client
+	user          string
+	pass          string
+}
+
+func NewClient(ctx context.Context, u, user, pass string) (*Client, error) {
 	s, err := soap.ParseURL(u)
 
 	if err != nil {
@@ -17,5 +24,18 @@ func NewClient(ctx context.Context, u, user, pass string) (*govmomi.Client, erro
 
 	s.User = url.UserPassword(user, pass)
 
-	return govmomi.NewClient(ctx, s, true)
+	gc, err := govmomi.NewClient(ctx, s, true)
+
+	if err != nil {
+		return nil, err
+	}
+
+	c := &Client{
+		URL:           s,
+		user:          user,
+		pass:          pass,
+		GovmomiClient: gc,
+	}
+
+	return c, nil
 }
